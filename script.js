@@ -1,11 +1,4 @@
-<div>Teachable Machine Pose Model</div>
-<button type="button" onclick="init()">Start</button>
-<div><canvas id="canvas"></canvas></div>
-<div id="label-container"></div>
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/pose@0.8/dist/teachablemachine-pose.min.js"></script>
-<script type="text/javascript">
-    // More API functions here:
+// More API functions here:
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
     // the link to your model provided by Teachable Machine export panel
@@ -53,11 +46,19 @@
         // Prediction 2: run input through teachable machine classification model
         const prediction = await model.predict(posenetOutput);
 
+        var bestGuess = 0;
+
         for (let i = 0; i < maxPredictions; i++) {
             const classPrediction =
                 prediction[i].className + ": " + prediction[i].probability.toFixed(2);
             labelContainer.childNodes[i].innerHTML = classPrediction;
+            
+            if (prediction[i].probability > prediction[bestGuess].probability) {
+                bestGuess = i;
+            }
         }
+
+        document.getElementById("bestGuess").innerHTML = prediction[bestGuess].className;
 
         // finally draw the poses
         drawPose(pose);
@@ -74,4 +75,3 @@
             }
         }
     }
-</script>
