@@ -81,6 +81,11 @@ p, h2 {
     font-weight: 800;
 }
 
+#startbtn:hover {
+    cursor: pointer;
+    filter: brightness(0.9);
+}
+
 #canvas {
     position: absolute;
     height: 200px;
@@ -96,4 +101,19 @@ p, h2 {
     top: 260px;
     width: 200px;
     text-align: center;
+}
+
+.progbarbg {
+    position: absolute;
+    left: 20px;
+    top: 340px;
+    width: 200px;
+    height: 25px;
+    background-color: #e2e0d7;
+}
+
+#progbar {
+    height: 100%;
+    width: 0%;
+    background-color: #776E65;
 }

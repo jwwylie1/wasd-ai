@@ -1,6 +1,36 @@
 // More API functions here:
     // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/pose
 
+    var progVal = 0;
+    const progbar = document.getElementById("progbar");
+    var lastPose = "Up";
+
+    function updateProgressBar(next) {
+        if (next == "None" || lastPose != next) {
+            progVal -= 8;
+        } else {
+            progVal += 4;
+        }
+
+        if (progVal >= 100) { // do something
+            if (next == "Up") {
+                keyUp();
+            } else if (next == "Right") {
+                keyRight();
+            } else if (next == "Down") {
+                keyDown();
+            } else if (next == "Left") {
+                keyLeft();
+            }
+            progVal = 0;
+        }
+        if (progVal < 0) {progVal = 0;}
+        
+        lastPose = next;
+        progbar.style.width = progVal + "%";
+    }
+
+
     // the link to your model provided by Teachable Machine export panel
     const URL = "https://teachablemachine.withgoogle.com/models/_2PD0Vsiz/";
     let model, webcam, ctx, labelContainer, maxPredictions;
@@ -8,32 +38,35 @@
     async function init() {
         const modelURL = URL + "model.json";
         const metadataURL = URL + "metadata.json";
-    
+
         // load the model and metadata
+        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+        // Note: the pose library adds a tmPose object to your window (window.tmPose)
         model = await tmPose.load(modelURL, metadataURL);
         maxPredictions = model.getTotalClasses();
-    
+
         // Convenience function to setup a webcam
         const size = 200;
         const flip = true; // whether to flip the webcam
         webcam = new tmPose.Webcam(size, size, flip); // width, height, flip
         await webcam.setup(); // request access to the webcam
         await webcam.play();
-    
+        window.requestAnimationFrame(loop);
+
         // append/get elements to the DOM
         const canvas = document.getElementById("canvas");
         canvas.width = size; canvas.height = size;
         ctx = canvas.getContext("2d");
-    
-        // Start predicting every second
-        setInterval(async () => {
-            webcam.update(); // update the webcam frame
-            await predict(); // run the prediction
-        }, 1000); // 1000 ms = 1 second
 
         document.getElementsByClassName("container")[0].style.visibility = "visible";
         document.getElementById("startbtn").style.display = "none";
 
+    }
+
+    async function loop(timestamp) {
+        webcam.update(); // update the webcam frame
+        await predict();
+        window.requestAnimationFrame(loop);
     }
 
      // START OF 2048 CODING
@@ -278,15 +311,7 @@
 
         document.getElementById("bestGuess").innerHTML = prediction[bestGuess].className;
 
-        if (prediction[bestGuess].className == "Up") {
-            keyUp();
-        } else if (prediction[bestGuess].className == "Right") {
-            keyRight();
-        } else if (prediction[bestGuess].className == "Down") {
-            keyDown();
-        } else if (prediction[bestGuess].className == "Left") {
-            keyLeft();
-        }
+        updateProgressBar(prediction[bestGuess].className);
 
         // finally draw the poses
         drawPose(pose);
