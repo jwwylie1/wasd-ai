@@ -59,7 +59,7 @@
         ctx = canvas.getContext("2d");
 
         document.getElementsByClassName("container")[0].style.visibility = "visible";
-        document.getElementById("startbtn").style.display = "none";
+        document.getElementById("startscreen").style.display = "none";
 
     }
 

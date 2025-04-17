@@ -3,6 +3,7 @@ body {
     display: flex;
     justify-content: center;
     font-family: "Clear Sans", Helvetica, serif;
+    overflow-x: hidden;
 }
 
 h1 {
@@ -69,6 +70,30 @@ p, h2 {
     font-size: 16px;
 }
 
+#startscreen {
+    position: absolute;
+    top: 5vw;
+    left: 0;
+    color: #776E65;
+    font-weight: 800;
+}
+
+.gametitle {
+    text-align: center;
+    font-size: 7vw;
+    width: 100vw;
+    margin-top: 2vw;
+}
+
+.names {
+    position: absolute;
+    width: 100vw;
+    top: 25vw;
+    font-size: 2vw;
+    padding: 1vw;
+    text-align: center;
+}
+
 #startbtn {
     position: absolute;
     height: 10vw;
@@ -77,8 +102,10 @@ p, h2 {
     top: 14vw;
     font-size: 5vw;
     background-color: #faf8ef;
-    color: #776E65;
+    border: 4px solid #776E65;
     font-weight: 800;
+    color: #776E65;
+
 }
 
 #startbtn:hover {
