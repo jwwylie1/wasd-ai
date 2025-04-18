@@ -4,7 +4,7 @@
     var progVal = 0;
     const progbar = document.getElementById("progbar");
     var lastPose = "Up";
-
+    const speedFactor = 2;
     function updateProgressBar(next) {
         if (next == "None" || lastPose != next) {
             progVal -= 8;
