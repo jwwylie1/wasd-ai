@@ -289,7 +289,7 @@
         }
         addColours()
     
-        let myTimer = setInterval(addColours, 50)
+        let myTimer = setInterval(addColours, 100)
 
     async function predict() {
         // Prediction #1: run input through posenet
